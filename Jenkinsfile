@@ -8,42 +8,10 @@ pipeline {
 
   }
 
-  stages {
-
-    stage('Hello') {
-
-      steps {
-
-        sh '''
-
-          java -version
-
-        '''
-
-      }
-
+ stage ('Call Powershell Script')
+{
+    node ('MyWindowsSlave') {
+        PowerShell(". '.\\disk-usage.ps1'") 
     }
-
-    stage('cat README') {
-
-      when {
-
-        branch "fix-*"
-
-      }
-
-      steps {
-
-        sh '''
-
-          cat README.md
-
-        '''
-
-      }
-
-    }
-
-  }
-
+}
 }
