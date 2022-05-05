@@ -7,10 +7,11 @@ pipeline {
     buildDiscarder logRotator(artifactDaysToKeepStr: '', artifactNumToKeepStr: '5', daysToKeepStr: '', numToKeepStr: '5')
 
   }
-
- stage('build') {
+  stages {
+     stage('build') {
             steps {
-       bat 'echo %PATH%'
-    }
-}
+              bat 'echo %PATH%'
+            }
+      }
+   }
 }
