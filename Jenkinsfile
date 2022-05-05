@@ -8,10 +8,9 @@ pipeline {
 
   }
 
- stage ('Call Powershell Script')
-{
-    node ('MyWindowsSlave') {
-        PowerShell(". '.\\disk-usage.ps1'") 
+ stage('build') {
+            steps {
+       bat 'echo %PATH%'
     }
 }
 }
