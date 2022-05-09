@@ -1,49 +1,49 @@
 pipeline {
-
-  agent any
-
-  options {
-
-    buildDiscarder logRotator(artifactDaysToKeepStr: '', artifactNumToKeepStr: '5', daysToKeepStr: '', numToKeepStr: '5')
-
-  }
-
-  stages {
-
-    stage('Hello') {
-
-      steps {
-
-        sh '''
-
-          java -version
-
-        '''
-
-      }
-
+    agent any
+    
+    tools{
+           maven 'apache-maven-3.8.5'
+           jdk 'jdk_11.0.14.1'
+    }
+    
+    parameters{
+        choice(name: 'BRANCH', choices: ['master', 'jenkins'], description: 'Pick Branch to Build')
     }
 
-    stage('cat README') {
+    stages{
+        stage ('Git Checkout') {
+            steps {
+                   gitcheckout(
+                   branch: "master",
+                   url: ""
+                   )
+            }
+        }
+        stage('Hello') {
 
-      when {
 
-        branch "fix-*"
+             steps {
 
-      }
 
-      steps {
+                     sh '''
 
-        sh '''
+                           java -version
 
-          cat README.md
+                        '''
 
-        '''
 
-      }
+              }
 
-    }
 
-  }
+           }
+        // Maven compile Stage
+        stage ('mvn Build Stage') {
+            steps {
+                echo "Running the Build"
+                sh 'mvn clean package'
+            }
+        }
+        
+     }
 
 }
